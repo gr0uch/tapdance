@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "TAP emitter.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",
@@ -20,7 +20,8 @@
   },
   "main": "./dist/index.js",
   "dependencies": {
-    "babel-runtime": "5.6.15"
+    "babel-runtime": "5.6.15",
+    "chalk": "1.1.0"
   },
   "devDependencies": {
     "babel": "5.6.14",

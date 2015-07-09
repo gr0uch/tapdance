@@ -51,8 +51,7 @@ not ok 4 intentional fail
 ok 5 should throw
 1..5
 
-# passed 4 (80%)
-# failed 1 (20%)
+# 1 failed (20%)
 ```
 
 On the process `exit` event, Tapdance will return a `0` exit code if nothing went wrong, and a non-zero exit code otherwise. There is no need to manually call when a test starts or ends.

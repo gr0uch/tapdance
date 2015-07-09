@@ -14,4 +14,4 @@ catch (error) {
 
 t.comment('function check')
 t.check('works', () => assert(true))
-t.check('should throw', () => assert(false), true)
+t.check('should throw', () => assert(false), false)
