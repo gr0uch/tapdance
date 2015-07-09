@@ -55,6 +55,8 @@ ok 5 should throw
 # failed 1 (20%)
 ```
 
+On the process `exit` event, Tapdance will return a `0` exit code if nothing went wrong, and a non-zero exit code otherwise. There is no need to manually call when a test starts or ends.
+
 
 ## License
 
