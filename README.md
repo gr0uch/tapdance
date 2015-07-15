@@ -10,48 +10,47 @@
 $ npm install tapdance
 ```
 
+
 ## Usage
 
 ```js
-import * as t from 'tapdance'
+import { pass, fail, check, comment } from 'tapdance'
 import assert from 'assert'
 
-t.comment('assert')
+comment('assert using try/catch')
+const message = 'trivial assert'
 try {
   assert(true)
-  t.pass('this works')
-  assert(123)
-  t.pass('this works too')
+  pass(message)
 }
 catch (error) {
-  t.fail('something went wrong', error)
+  fail(message, error)
 }
 
-t.comment('function check')
-t.check('works', () => assert(true))
-t.check('intentional fail', () => assert(false))
-t.check('should throw', () => assert(false), true)
+comment('function check')
+check('works', () => assert(true))
+check('intentional fail', () => assert(false))
+check('should throw', () => assert(false), true)
 ```
 
 TAP output:
 
 ```
 TAP version 13
-# assert
-ok 1 this works
-ok 2 this works too
+# assert using try/catch
+ok 1 trivial assert
 # function check
-ok 3 works
-not ok 4 intentional fail
+ok 2 works
+not ok 3 intentional fail
   ---
   name: AssertionError
   message: false == true
   stack: <PLATFORM_STACK_TRACE>
   ...
-ok 5 should throw
-1..5
+ok 4 should throw
+1..4
 
-# 1 test failed (20%)
+# 1 test failed
 ```
 
 On the process `exit` event, Tapdance will return a `0` exit code if nothing went wrong, and a non-zero exit code otherwise. There is no need to manually call when a test starts or ends.
