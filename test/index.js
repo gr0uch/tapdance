@@ -1,4 +1,4 @@
-import { comment, pass, fail, check } from '../lib'
+import { comment, pass, fail } from '../lib'
 import assert from 'assert'
 
 comment('assert')
@@ -9,9 +9,9 @@ try {
   pass('this works too')
 }
 catch (error) {
-  fail('something went wrong', error)
+  fail('something went wrong')
 }
 
 comment('function check')
-check('works', () => assert(true))
-check('should throw', () => assert(false), true)
+pass(() => assert(true), 'works')
+fail(() => assert(false), 'should throw')
