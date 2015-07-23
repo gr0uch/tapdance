@@ -29,7 +29,7 @@ rules:
   new-cap: 2
   no-caller: 2
   no-cond-assign: [ 2, 'always' ]
-  no-console: 2
+  no-console: 0
   no-constant-condition: 2
   no-debugger: 2
   no-dupe-keys: 2
@@ -65,6 +65,7 @@ rules:
   no-octal-escape: 2
   no-obj-calls: 2
   no-param-reassign: 0
+  no-process-exit: 0
   no-proto: 2
   no-redeclare: 2
   no-reserved-keys: 2
