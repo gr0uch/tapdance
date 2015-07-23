@@ -12,9 +12,12 @@ run(() => {
   catch (error) {
     fail('something went wrong')
   }
+})
 
+run(() => {
   comment('function check')
   pass(() => assert(true), 'works')
   fail(() => assert(false), 'should throw')
-  end()
 })
+
+run(end)

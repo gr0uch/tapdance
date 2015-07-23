@@ -1,5 +1,4 @@
 {
   "nonStandard": false,
-  "optional": [ "runtime" ],
-  "stage": 0
+  "optional": [ "runtime" ]
 }
