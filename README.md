@@ -74,6 +74,11 @@ Output a comment line.
 Exit the test by ending the process with a non-zero exit code.
 
 
+### tapdance.end()
+
+End the test, this is usually not needed except when the process can not exit normally.
+
+
 ## License
 
 This software is licensed under the [MIT License](//github.com/0x8890/tapdance/blob/master/LICENSE).
