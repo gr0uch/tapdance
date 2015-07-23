@@ -69,6 +69,11 @@ Create a failing message, optionally check if a function **SHOULD** throw.
 Output a comment line.
 
 
+### tapdance.run(fn)
+
+Run a function. Calls to `run` get collected synchronously and run in sequential order in the next tick, which is useful when splitting up asynchronous tests in different files.
+
+
 ### tapdance.bail([message])
 
 Exit the test by ending the process with a non-zero exit code.
@@ -76,7 +81,7 @@ Exit the test by ending the process with a non-zero exit code.
 
 ### tapdance.end()
 
-End the test, this is usually not needed except when the process can not exit normally.
+End the test, this is not needed except when the process can not exit normally, such as in a browser environment.
 
 
 ## License
