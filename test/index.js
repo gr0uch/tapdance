@@ -1,4 +1,4 @@
-import { comment, pass, fail, end, run } from '../lib'
+import { comment, pass, fail, run } from '../lib'
 import assert from 'assert'
 
 run.only(() => {
@@ -19,5 +19,3 @@ run.only(() => {
 })
 
 run(() => fail('run.only doesn\'t work'))
-
-run.only(() => end())

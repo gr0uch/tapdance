@@ -51,7 +51,7 @@ ok 3 should throw
 # 1 test failed
 ```
 
-When the test exits, Tapdance will return a `0` exit code if nothing went wrong, and a non-zero exit code otherwise. There is no need to manually call when a test ends, except in the browser.
+When the test exits, Tapdance will return a `0` exit code if nothing went wrong, and a non-zero exit code otherwise. There is no need to manually call when a test ends.
 
 
 ### tapdance.pass([fn], [message])
@@ -77,11 +77,6 @@ Run a function which may return a Promise. Calls to `run` get collected synchron
 ### tapdance.run.only(fn)
 
 Same as `run`, but exclude other calls to `run`.
-
-
-### tapdance.end([message])
-
-End the test. This is not needed except when the process can not exit normally, such as in a browser environment. If a message is passed, it will bail out the test with the message and end the process with a non-zero exit code.
 
 
 ## License
