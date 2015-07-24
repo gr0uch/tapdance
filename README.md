@@ -4,7 +4,7 @@
 [![npm Version](https://img.shields.io/npm/v/tapdance.svg?style=flat-square)](https://www.npmjs.com/package/tapdance)
 [![License](https://img.shields.io/npm/l/tapdance.svg?style=flat-square)](https://raw.githubusercontent.com/0x8890/tapdance/master/LICENSE)
 
-[TAP](https://testanything.org) emitter for writing tests with. Bring your own assertion library.
+Test harness that emits [TAP](https://testanything.org). Bring your own assertion library.
 
 ```
 $ npm install tapdance

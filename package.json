@@ -1,6 +1,6 @@
 {
   "name": "tapdance",
-  "description": "TAP emitter for writing tests with.",
+  "description": "Test harness that emits the Test Anything Protocol (TAP).",
   "version": "3.0.0",
   "license": "MIT",
   "author": {
