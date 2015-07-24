@@ -4,7 +4,7 @@
 [![npm Version](https://img.shields.io/npm/v/tapdance.svg?style=flat-square)](https://www.npmjs.com/package/tapdance)
 [![License](https://img.shields.io/npm/l/tapdance.svg?style=flat-square)](https://raw.githubusercontent.com/0x8890/tapdance/master/LICENSE)
 
-[TAP](https://testanything.org) emitter for writing tests with.
+[TAP](https://testanything.org) emitter for writing tests with. Bring your own assertion library.
 
 ```
 $ npm install tapdance
@@ -14,39 +14,39 @@ $ npm install tapdance
 ## Usage
 
 ```js
-import { pass, fail, comment } from 'tapdance'
+import { pass, fail, comment, run } from 'tapdance'
 import assert from 'assert'
 
-comment('assert using try/catch')
-const message = 'trivial assert'
-try {
-  assert(true)
-  pass(message)
-}
-catch (error) { fail(message) }
+run(() => {
+  comment('test')
+  ok(true, 'trivial assert')
+  ok(false, 'intentional fail')
+  notOk(false, 'should throw')
+})
 
-comment('function check')
-pass(() => assert(true), 'works')
-pass(() => assert(false), 'intentional fail')
-fail(() => assert(false), 'should throw')
+function ok (expression, message) {
+  pass(() => assert(expression), message)
+}
+
+function notOk (expression, message) {
+  fail(() => assert(expression), message)
+}
 ```
 
 TAP output:
 
 ```
 TAP version 13
-# assert using try/catch
+# test
 ok 1 trivial assert
-# function check
-ok 2 works
-not ok 3 intentional fail
+not ok 2 intentional fail
   ---
   name: AssertionError
   message: false == true
   stack: <PLATFORM_STACK_TRACE>
   ...
-ok 4 should throw
-1..4
+ok 3 should throw
+1..3
 
 # 1 test failed
 ```
@@ -71,7 +71,7 @@ Output a comment line.
 
 ### tapdance.run(fn)
 
-Run a function. Calls to `run` get collected synchronously and run in sequential order in the next tick, which is useful when splitting up asynchronous tests in different files.
+Run a function which may return a Promise. Calls to `run` get collected synchronously and run in sequential order in the next tick, which is useful when splitting up asynchronous tests in different files.
 
 
 ### tapdance.run.only(fn)

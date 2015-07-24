@@ -6,8 +6,6 @@ run.only(() => {
   try {
     assert(true)
     pass('this works')
-    assert(123)
-    pass('this works too')
   }
   catch (error) {
     fail('something went wrong')
