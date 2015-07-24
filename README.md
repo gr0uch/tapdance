@@ -79,14 +79,9 @@ Run a function. Calls to `run` get collected synchronously and run in sequential
 Same as `run`, but exclude other calls to `run`.
 
 
-### tapdance.bail([message])
+### tapdance.end([message])
 
-Exit the test by ending the process with a non-zero exit code.
-
-
-### tapdance.end()
-
-End the test, this is not needed except when the process can not exit normally, such as in a browser environment.
+End the test. This is not needed except when the process can not exit normally, such as in a browser environment. If a message is passed, it will bail out the test with the message and end the process with a non-zero exit code.
 
 
 ## License

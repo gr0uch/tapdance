@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "TAP emitter for writing tests with.",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",

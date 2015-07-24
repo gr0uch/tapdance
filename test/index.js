@@ -22,4 +22,4 @@ run.only(() => {
 
 run(() => fail('run.only doesn\'t work'))
 
-run.only(end)
+run.only(() => end())
