@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",
@@ -20,12 +20,12 @@
   },
   "main": "./dist/index.js",
   "dependencies": {
-    "babel-runtime": "^5.8.3"
+    "babel-runtime": "^5.8.20"
   },
   "devDependencies": {
-    "babel": "^5.8.3",
-    "babel-eslint": "^3.1.26",
-    "eslint": "^0.24.1",
+    "babel": "^5.8.20",
+    "babel-eslint": "^4.0.5",
+    "eslint": "^1.0.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.4.2"
   },
