@@ -23,9 +23,9 @@
     "babel-runtime": "^5.8.20"
   },
   "devDependencies": {
-    "babel": "^5.8.20",
+    "babel": "^5.8.21",
     "babel-eslint": "^4.0.5",
-    "eslint": "^1.0.0",
+    "eslint": "^1.1.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.4.2"
   },
