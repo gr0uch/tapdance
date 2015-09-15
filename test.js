@@ -1,5 +1,11 @@
-import { comment, pass, fail, run } from '../lib'
-import assert from 'assert'
+'use strict'
+
+const tapdance = require('./')
+const assert = require('assert')
+const comment = tapdance.comment
+const pass = tapdance.pass
+const fail = tapdance.fail
+const run = tapdance.run
 
 run.only(() => {
   comment('assert')

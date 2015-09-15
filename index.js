@@ -1,3 +1,5 @@
+'use strict'
+
 const hasProcess = typeof process !== 'undefined'
 const hasExit = hasProcess && typeof process.exit === 'function'
 const hasNextTick = hasProcess && typeof process.nextTick === 'function'
@@ -11,7 +13,7 @@ let count = 0
 let passing = 0
 
 
-export function pass (fn, message) {
+function pass (fn, message) {
   begin()
   count++
 
@@ -32,7 +34,7 @@ export function pass (fn, message) {
 }
 
 
-export function fail (fn, message) {
+function fail (fn, message) {
   begin()
   count++
 
@@ -49,13 +51,14 @@ export function fail (fn, message) {
 }
 
 
-export function comment (message = 'empty comment') {
+function comment (message) {
+  if (message === void 0) message = 'empty comment'
   begin()
   println(`# ${message}`)
 }
 
 
-export function run (fn) {
+function run (fn) {
   stack.push(fn)
 }
 
@@ -63,9 +66,6 @@ run.only = fn => {
   fn.only = true
   run(fn)
 }
-
-
-if (hasProcess) process.on('exit', exit)
 
 
 // Flush calls to `run`.
@@ -81,9 +81,6 @@ function flush () {
     end()
   })
 }
-
-if (hasNextTick) process.nextTick(flush)
-else setTimeout(flush, 0)
 
 
 function exit (code) {
@@ -111,12 +108,14 @@ function begin () {
 }
 
 
-function ok (message = 'unnamed assertion') {
+function ok (message) {
+  if (message === void 0) message = 'unnamed assertion'
   println(`ok ${count} ${message}`)
 }
 
 
-function notOk (message = 'unnamed assertion') {
+function notOk (message) {
+  if (message === void 0) message = 'unnamed assertion'
   println(`not ok ${count} ${message}`)
 }
 
@@ -134,6 +133,14 @@ function showError (error) {
 }
 
 
-function println (s = '') {
-  console.log(s.replace('\n', '')) // eslint-disable-line no-console
+function println (s) {
+  console.log(s ? s.replace('\n', '') : '') // eslint-disable-line no-console
 }
+
+
+// Run tests.
+if (hasProcess) process.on('exit', exit)
+if (hasNextTick) process.nextTick(flush)
+else setTimeout(flush, 0)
+
+module.exports = { run, pass, fail, comment }
