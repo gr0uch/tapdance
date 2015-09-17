@@ -1,13 +1,11 @@
-'use strict'
+var tapdance = require('./')
+var assert = require('assert')
+var comment = tapdance.comment
+var pass = tapdance.pass
+var fail = tapdance.fail
+var run = tapdance.run
 
-const tapdance = require('./')
-const assert = require('assert')
-const comment = tapdance.comment
-const pass = tapdance.pass
-const fail = tapdance.fail
-const run = tapdance.run
-
-run.only(() => {
+run.only(function () {
   comment('assert')
   try {
     assert(true)
@@ -18,10 +16,10 @@ run.only(() => {
   }
 })
 
-run.only(() => {
+run.only(function () {
   comment('function check')
-  pass(() => assert(true), 'works')
-  fail(() => assert(false), 'should throw')
+  pass(function () { assert(true) }, 'works')
+  fail(function () { assert(false) }, 'should throw')
 })
 
-run(() => fail('run.only doesn\'t work'))
+run(function () { fail('run.only doesn\'t work') })

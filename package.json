@@ -24,7 +24,9 @@
   "eslintConfig": {
     "extends": "0x8890",
     "rules": {
-      "strict": 0
+      "strict": 0,
+      "no-var": 0,
+      "func-names": 0
     }
   },
   "files": [
