@@ -1,16 +1,13 @@
-'use strict'
+var hasProcess = typeof process !== 'undefined'
+var hasExit = hasProcess && typeof process.exit === 'function'
+var hasNextTick = hasProcess && typeof process.nextTick === 'function'
 
-const hasProcess = typeof process !== 'undefined'
-const hasExit = hasProcess && typeof process.exit === 'function'
-const hasNextTick = hasProcess && typeof process.nextTick === 'function'
-const end = () => hasExit ? process.exit() : exit()
-
-let stack = []
-let started = false
-let ended = false
-let bailing = false
-let count = 0
-let passing = 0
+// These variables contain internal state.
+var stack = []
+var hasStarted = false
+var hasEnded = false
+var count = 0
+var passing = 0
 
 
 function pass (fn, message) {
@@ -54,7 +51,7 @@ function fail (fn, message) {
 function comment (message) {
   if (message === void 0) message = 'empty comment'
   begin()
-  println(`# ${message}`)
+  println('# ' + message)
 }
 
 
@@ -62,74 +59,88 @@ function run (fn) {
   stack.push(fn)
 }
 
-run.only = fn => {
+run.only = function runOnly (fn) {
   fn.only = true
   run(fn)
 }
 
 
+function hasOnly (fn) {
+  return fn.only
+}
+
+
 // Flush calls to `run`.
 function flush () {
-  if (stack.some(fn => fn.only))
-    stack = stack.filter(fn => fn.only)
+  if (stack.some(hasOnly))
+    stack = stack.filter(hasOnly)
 
-  stack.reduce((chain, fn) =>
-    chain.then(fn), Promise.resolve())
+  stack.reduce(function (chain, fn) {
+    return chain.then(fn)
+  }, Promise.resolve())
   .then(end)
-  .catch(error => {
-    pass(() => { throw error }, error.message)
+  .catch(function (error) {
+    pass(function () { throw error }, error.message)
     end()
   })
 }
 
 
+function end () {
+  if (hasExit) process.exit()
+  else exit()
+}
+
+
 function exit (code) {
-  if (bailing || ended) return
-  if (hasProcess)
-    process.exitCode = code ? code : count && count === passing ? 0 : 1
+  if (hasEnded) return
+  if (hasProcess) process.exitCode = code ?
+    code : count && count === passing ? 0 : 1
 
   begin()
 
-  println(`1..${count}`)
+  println('1..' + count)
   println()
-  if (count === passing) comment(`All good!`)
-  else comment(`${count - passing} ` +
-    `test${count - passing > 1 ? 's' : ''} failed`)
+  if (count === passing) comment('All good!')
+  else comment((count - passing) + ' test' +
+    (count - passing > 1 ? 's' : '') + ' failed')
   println()
 
-  ended = true
+  hasEnded = true
 }
 
 
 function begin () {
-  if (started || ended) return
-  started = true
-  println(`TAP version 13`)
+  if (hasStarted || hasEnded) return
+  hasStarted = true
+  println('TAP version 13')
 }
 
 
 function ok (message) {
   if (message === void 0) message = 'unnamed assertion'
-  println(`ok ${count} ${message}`)
+  println('ok ' + count + ' ' + message)
 }
 
 
 function notOk (message) {
   if (message === void 0) message = 'unnamed assertion'
-  println(`not ok ${count} ${message}`)
+  println('not ok ' + count + ' ' + message)
 }
 
 
 function showError (error) {
-  println(`  ---`)
-  println(`  name: ${error.name}`)
-  println(`  message: ${error.message}`)
+  println('  ---')
+  println('  name: ' + error.name)
+  println('  message: ' + error.message)
   if (error.stack) {
-    println(`  stack:`)
-    for (let line of error.stack.split('\n').map(line => line.trim()))
-      if (line.indexOf(error.name) !== 0) println(`    - ${line}`)
+    println('  stack:')
+    error.stack.split('\n').forEach(function (line) {
+      line = line.trim()
+      if (line.indexOf(error.name) !== 0) println('    - ' + line)
+    })
   }
-  println(`  ...`)
+  println('  ...')
 }
 
 
@@ -143,4 +154,9 @@ if (hasProcess) process.on('exit', exit)
 if (hasNextTick) process.nextTick(flush)
 else setTimeout(flush, 0)
 
-module.exports = { run, pass, fail, comment }
+module.exports = {
+  run: run,
+  pass: pass,
+  fail: fail,
+  comment: comment
+}
