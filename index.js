@@ -1,3 +1,6 @@
+var assert = require('assert')
+
+// Invariants to test for environment variables.
 var hasProcess = typeof process !== 'undefined'
 var hasExit = hasProcess && typeof process.exit === 'function'
 var hasNextTick = hasProcess && typeof process.nextTick === 'function'
@@ -9,6 +12,39 @@ var hasEnded = false
 var count = 0
 var passing = 0
 
+// Run tests.
+if (hasProcess) process.on('exit', exit)
+if (hasNextTick) process.nextTick(flush)
+else setTimeout(flush, 0)
+
+module.exports = {
+  run: run,
+  pass: pass,
+  fail: fail,
+  comment: comment,
+
+  // ok, equal, and deepEqual are basically just convenience functions that
+  // wrap around Node's `assert` module.
+  ok: ok,
+  equal: equal,
+  deepEqual: deepEqual
+}
+
+
+function ok (value, message) {
+  pass(function () { assert(value) }, message)
+}
+
+
+function equal (a, b, message) {
+  pass(function () { assert.strictEqual(a, b) }, message)
+}
+
+
+function deepEqual (a, b, message) {
+  pass(function () { assert.deepStrictEqual(a, b) }, message)
+}
+
 
 function pass (fn, message) {
   begin()
@@ -16,16 +52,16 @@ function pass (fn, message) {
 
   if (typeof fn !== 'function') {
     passing++
-    return ok(fn)
+    return outputOk(fn)
   }
 
   try {
     fn()
     passing++
-    ok(message)
+    outputOk(message)
   }
   catch (error) {
-    notOk(message)
+    outputNotOk(message)
     showError(error)
   }
 }
@@ -35,15 +71,15 @@ function fail (fn, message) {
   begin()
   count++
 
-  if (typeof fn !== 'function') return notOk(fn)
+  if (typeof fn !== 'function') return outputNotOk(fn)
 
   try {
     fn()
-    notOk(message)
+    outputNotOk(message)
   }
   catch (error) {
     passing++
-    ok(message)
+    outputOk(message)
   }
 }
 
@@ -117,13 +153,13 @@ function begin () {
 }
 
 
-function ok (message) {
+function outputOk (message) {
   if (message === void 0) message = 'unnamed assertion'
   println('ok ' + count + ' ' + message)
 }
 
 
-function notOk (message) {
+function outputNotOk (message) {
   if (message === void 0) message = 'unnamed assertion'
   println('not ok ' + count + ' ' + message)
 }
@@ -146,17 +182,4 @@ function showError (error) {
 
 function println (s) {
   console.log(s ? s.replace('\n', '') : '') // eslint-disable-line no-console
-}
-
-
-// Run tests.
-if (hasProcess) process.on('exit', exit)
-if (hasNextTick) process.nextTick(flush)
-else setTimeout(flush, 0)
-
-module.exports = {
-  run: run,
-  pass: pass,
-  fail: fail,
-  comment: comment
 }
