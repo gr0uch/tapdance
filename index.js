@@ -32,24 +32,17 @@ module.exports = {
 
 
 function ok (value, message) {
-  pass(function () {
-    if (!value) throw Error('"' + value + '" is falsy.')
-  }, message)
+  return value ? pass(message) : fail(message)
 }
 
 
 function equal (a, b, message) {
-  pass(function () {
-    if (a !== b) throw Error('"' + a + '" !== "' + b + '".')
-  }, message)
+  return a === b ? pass(message) : fail(message)
 }
 
 
 function deepEqual (a, b, message) {
-  pass(function () {
-    if (!deep(a, b, { strict: true }))
-      throw Error('Deep equality check failed.')
-  }, message)
+  return deep(a, b, { strict: true }) ? pass(message) : fail(message)
 }
 
 
