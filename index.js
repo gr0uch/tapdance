@@ -1,4 +1,4 @@
-var assert = require('assert')
+var deep = require('deep-equal')
 
 // Invariants to test for environment variables.
 var hasProcess = typeof process !== 'undefined'
@@ -32,17 +32,24 @@ module.exports = {
 
 
 function ok (value, message) {
-  pass(function () { assert(value) }, message)
+  pass(function () {
+    if (!value) throw Error('"' + value + '" is falsy.')
+  }, message)
 }
 
 
 function equal (a, b, message) {
-  pass(function () { assert.strictEqual(a, b) }, message)
+  pass(function () {
+    if (a !== b) throw Error('"' + a + '" !== "' + b + '".')
+  }, message)
 }
 
 
 function deepEqual (a, b, message) {
-  pass(function () { assert.deepStrictEqual(a, b) }, message)
+  pass(function () {
+    if (!deep(a, b, { strict: true }))
+      throw Error('Deep equality check failed.')
+  }, message)
 }
 
 
