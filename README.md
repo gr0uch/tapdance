@@ -68,6 +68,11 @@ Run a function which may return a Promise. Calls to `run` get collected synchron
 Same as `run`, but exclude other calls to `run`.
 
 
+## Promise Implementation
+
+The export object has a property `Promise` which may be overridden in case a custom Promise implementation is desired, or if the environment does not have a Promise global.
+
+
 ## License
 
 This software is licensed under the [MIT License](//github.com/0x8890/tapdance/blob/master/LICENSE).

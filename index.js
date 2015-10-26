@@ -6,18 +6,14 @@ var hasExit = hasProcess && typeof process.exit === 'function'
 var hasNextTick = hasProcess && typeof process.nextTick === 'function'
 
 // These variables contain internal state.
+var startTime = Date.now()
 var stack = []
 var hasStarted = false
 var hasEnded = false
 var count = 0
 var passing = 0
 
-// Run tests.
-if (hasProcess) process.on('exit', exit)
-if (hasNextTick) process.nextTick(flush)
-else setTimeout(flush, 0)
-
-module.exports = {
+var exportObject = {
   run: run,
   pass: pass,
   fail: fail,
@@ -27,8 +23,17 @@ module.exports = {
   // wrap around Node's `assert` module.
   ok: ok,
   equal: equal,
-  deepEqual: deepEqual
+  deepEqual: deepEqual,
+
+  // Allow for custom Promise implementation, or to provide one in case of
+  // an environment which does not implement Promise.
+  Promise: typeof Promise !== 'undefined' ? Promise : null
 }
+
+// Run tests.
+if (hasProcess) process.on('exit', exit)
+if (hasNextTick) process.nextTick(flush)
+else setTimeout(flush, 0)
 
 
 function ok (value, message) {
@@ -113,7 +118,7 @@ function flush () {
 
   stack.reduce(function (chain, fn) {
     return chain.then(fn)
-  }, Promise.resolve())
+  }, exportObject.Promise.resolve())
   .then(end)
   .catch(function (error) {
     pass(function () { throw error }, error.message)
@@ -137,9 +142,10 @@ function exit (code) {
 
   println('1..' + count)
   println()
-  if (count === passing) comment('All good!')
+  if (count === passing) comment('all tests passed!')
   else comment((count - passing) + ' test' +
     (count - passing > 1 ? 's' : '') + ' failed')
+  comment('test finished in ' + ((Date.now() - startTime) / 1000) + ' s')
   println()
 
   hasEnded = true
@@ -183,3 +189,6 @@ function showError (error) {
 function println (s) {
   console.log(s ? s.replace('\n', '') : '') // eslint-disable-line no-console
 }
+
+
+module.exports = exportObject
