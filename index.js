@@ -113,12 +113,14 @@ function hasOnly (fn) {
 
 // Flush calls to `run`.
 function flush () {
+  var Promise = exportObject.Promise
+
   if (stack.some(hasOnly))
     stack = stack.filter(hasOnly)
 
   stack.reduce(function (chain, fn) {
     return chain.then(fn)
-  }, exportObject.Promise.resolve())
+  }, Promise.resolve())
   .then(end)
   .catch(function (error) {
     pass(function () { throw error }, error.message)
