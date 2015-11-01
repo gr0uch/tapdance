@@ -140,11 +140,12 @@ function exit (code) {
   if (hasProcess) process.exitCode = code ?
     code : count && count === passing ? 0 : 1
 
-  begin()
+  if (!count) fail('no tests found')
+  else begin()
 
   println('1..' + count)
   println()
-  if (count === passing) comment('all tests passed!')
+  if (count === passing) comment('all tests passed')
   else comment((count - passing) + ' test' +
     (count - passing > 1 ? 's' : '') + ' failed')
   comment('test finished in ' + ((Date.now() - startTime) / 1000) + ' s')
