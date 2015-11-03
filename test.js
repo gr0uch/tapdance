@@ -1,6 +1,8 @@
 var t = require('./')
 var assert = require('assert')
 
+t.isConcurrent = true
+
 t.run.only(function () {
   t.comment('assert')
   try {

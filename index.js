@@ -25,6 +25,10 @@ var exportObject = {
   equal: equal,
   deepEqual: deepEqual,
 
+  // Setting to allow concurrent tests, use this if you don't care about
+  // the order which the output comes back.
+  isConcurrent: false,
+
   // Allow for custom Promise implementation, or to provide one in case of
   // an environment which does not implement Promise.
   Promise: typeof Promise !== 'undefined' ? Promise : null
@@ -114,13 +118,16 @@ function hasOnly (fn) {
 // Flush calls to `run`.
 function flush () {
   var Promise = exportObject.Promise
+  var isConcurrent = exportObject.isConcurrent
 
   if (stack.some(hasOnly))
     stack = stack.filter(hasOnly)
 
-  stack.reduce(function (chain, fn) {
-    return chain.then(fn)
-  }, Promise.resolve())
+  return (isConcurrent ?
+    Promise.all(stack.map(fn => fn()))
+    : stack.reduce(function (chain, fn) {
+      return chain.then(fn)
+    }, Promise.resolve()))
   .then(end)
   .catch(function (error) {
     pass(function () { throw error }, error.message)
