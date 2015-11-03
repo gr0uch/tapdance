@@ -1,5 +1,3 @@
-var deep = require('deep-equal')
-
 // Invariants to test for environment variables.
 var hasProcess = typeof process !== 'undefined'
 var hasExit = hasProcess && typeof process.exit === 'function'
@@ -18,15 +16,10 @@ var exportObject = {
   pass: pass,
   fail: fail,
   comment: comment,
-
-  // ok, equal, and deepEqual are basically just convenience functions that
-  // wrap around Node's `assert` module.
   ok: ok,
-  equal: equal,
-  deepEqual: deepEqual,
 
   // Setting to allow concurrent tests, use this if you don't care about
-  // the order which the output comes back.
+  // the order in which the output comes back.
   isConcurrent: false,
 
   // Allow for custom Promise implementation, or to provide one in case of
@@ -42,16 +35,6 @@ else setTimeout(flush, 0)
 
 function ok (value, message) {
   return value ? pass(message) : fail(message)
-}
-
-
-function equal (a, b, message) {
-  return a === b ? pass(message) : fail(message)
-}
-
-
-function deepEqual (a, b, message) {
-  return deep(a, b, { strict: true }) ? pass(message) : fail(message)
 }
 
 

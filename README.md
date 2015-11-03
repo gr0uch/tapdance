@@ -19,9 +19,7 @@ const t = require('tapdance')
 t.run(() => {
   t.comment('test')
   t.ok(true, 'trivial assert')
-  t.equal('apples', 'apples', 'the same value')
-  t.deepEqual({ foo: 'bar' }, { foo: 'bar' },
-    'deeply and strictly equal')
+  t.ok('apples' !== 'oranges', 'different value')
 })
 ```
 
@@ -31,16 +29,6 @@ When the test exits, Tapdance will return a `0` exit code if nothing went wrong,
 ### t.ok(value, [message])
 
 Check if a value is truthy or not.
-
-
-### t.equal(a, b, [message])
-
-Check if two values are strictly equal or not.
-
-
-### t.deepEqual(a, b, [message])
-
-Check if two values are deeply and strictly equal or not.
 
 
 ### t.pass([fn], [message])

@@ -23,8 +23,6 @@ t.run.only(function () {
 t.run.only(function () {
   t.comment('assert helpers')
   t.ok(true)
-  t.equal(1, 1)
-  t.deepEqual({}, {})
 })
 
 t.run(function () { t.fail('run.only doesn\'t work') })
