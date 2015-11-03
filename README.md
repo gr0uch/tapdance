@@ -61,7 +61,7 @@ Same as `run`, but exclude other calls to `run`.
 A boolean value defaulting to `false`, if it is `true` then tests will be run concurrently. Use this if you do not care at all about the order of the reporting, and if your tests are atomic.
 
 
-## Promise Implementation
+### t.Promise
 
 The export object has a property `Promise` which may be overridden in case a custom Promise implementation is desired, or if the environment does not have a Promise global.
 
