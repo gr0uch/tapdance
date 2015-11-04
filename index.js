@@ -107,7 +107,7 @@ function flush () {
     stack = stack.filter(hasOnly)
 
   return (isConcurrent ?
-    Promise.all(stack.map(fn => fn()))
+    Promise.all(stack.map(function (fn) { return fn() }))
     : stack.reduce(function (chain, fn) {
       return chain.then(fn)
     }, Promise.resolve()))
