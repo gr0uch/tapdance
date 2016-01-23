@@ -25,4 +25,8 @@ t.run.only(function () {
   t.ok(true)
 })
 
+t.run.skip(function () {
+  t.fail('should have skipped')
+})
+
 t.run(function () { t.fail('run.only doesn\'t work') })

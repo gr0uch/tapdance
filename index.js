@@ -94,8 +94,10 @@ run.only = function runOnly (fn) {
 }
 
 run.skip = function runSkip () {
-  skipped++
-  comment('test skipped!')
+  run(function () {
+    skipped++
+    comment('test skipped!')
+  })
 }
 
 
@@ -108,9 +110,13 @@ function hasOnly (fn) {
 function flush () {
   var Promise = exportObject.Promise
   var isConcurrent = exportObject.isConcurrent
+  var length
 
-  if (stack.some(hasOnly))
+  if (stack.some(hasOnly)) {
+    length = stack.length
     stack = stack.filter(hasOnly)
+    skipped = length - stack.length
+  }
 
   return (isConcurrent ?
     Promise.all(stack.map(function (fn) { return fn() }))
@@ -144,7 +150,7 @@ function exit (code) {
   if (count === passing) comment('all tests passed')
   else comment((count - passing) + ' test' +
     (count - passing > 1 ? 's' : '') + ' failed')
-  if (skipped) comment(skipped + 'test' +
+  if (skipped) comment(skipped + ' test' +
     (skipped > 1 ? 's' : '') + ' skipped')
   comment('test finished in ' + ((Date.now() - startTime) / 1000) + ' s')
   println()

@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",
@@ -12,14 +12,13 @@
     "url": "https://github.com/0x8890/tapdance"
   },
   "scripts": {
-    "test": "eslint . && node test | tap-dot"
+    "test": "eslint . && node test"
   },
   "devDependencies": {
-    "eslint": "^1.8.0",
-    "eslint-config-0x8890": "^1.0.0",
+    "eslint": "^1.10.3",
+    "eslint-config-0x8890": "^1.0.1",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.4.3",
-    "tap-dot": "^1.0.0"
+    "rimraf": "^2.5.1"
   },
   "eslintConfig": {
     "extends": "0x8890",
