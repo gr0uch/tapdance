@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",

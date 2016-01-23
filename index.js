@@ -10,6 +10,7 @@ var hasStarted = false
 var hasEnded = false
 var count = 0
 var passing = 0
+var skipped = 0
 
 var exportObject = {
   run: run,
@@ -92,6 +93,11 @@ run.only = function runOnly (fn) {
   run(fn)
 }
 
+run.skip = function runSkip () {
+  skipped++
+  comment('test skipped!')
+}
+
 
 function hasOnly (fn) {
   return fn.only
@@ -138,6 +144,8 @@ function exit (code) {
   if (count === passing) comment('all tests passed')
   else comment((count - passing) + ' test' +
     (count - passing > 1 ? 's' : '') + ' failed')
+  if (skipped) comment(skipped + 'test' +
+    (skipped > 1 ? 's' : '') + ' skipped')
   comment('test finished in ' + ((Date.now() - startTime) / 1000) + ' s')
   println()
 

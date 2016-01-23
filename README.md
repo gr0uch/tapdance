@@ -56,6 +56,11 @@ Run a function which may return a Promise. Calls to `run` get collected synchron
 Same as `run`, but exclude other calls to `run`.
 
 
+### t.run.skip()
+
+Skip a test.
+
+
 ### t.isConcurrent
 
 A boolean value defaulting to `false`, if it is `true` then tests will be run concurrently. Use this if you do not care at all about the order of the reporting, and if your tests are atomic.
