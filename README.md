@@ -4,7 +4,7 @@
 [![npm Version](https://img.shields.io/npm/v/tapdance.svg?style=flat-square)](https://www.npmjs.com/package/tapdance)
 [![License](https://img.shields.io/npm/l/tapdance.svg?style=flat-square)](https://raw.githubusercontent.com/0x8890/tapdance/master/LICENSE)
 
-Test harness that emits [TAP](https://testanything.org). It is ~200 LOC, runs in Node.js and web browsers, and comes with a minimal API surface yet packs features like concurrency and `Promise` support for asynchronous testing.
+Test harness that emits [TAP](https://testanything.org). It is ~150 LOC, runs in Node.js and web browsers, and is focused on simplicity of implementation.
 
 ```
 $ npm install tapdance
