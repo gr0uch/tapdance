@@ -1,3 +1,5 @@
+'use strict'
+
 // Invariants to test for environment variables.
 var hasProcess = typeof process !== 'undefined'
 var hasExit = hasProcess && typeof process.exit === 'function'
@@ -45,7 +47,8 @@ function pass (fn, message) {
 
   if (typeof fn !== 'function') {
     passing++
-    return outputOk(fn)
+    outputOk(fn)
+    return
   }
 
   try {
@@ -64,7 +67,10 @@ function fail (fn, message) {
   begin()
   count++
 
-  if (typeof fn !== 'function') return outputNotOk(fn)
+  if (typeof fn !== 'function') {
+    outputNotOk(fn)
+    return
+  }
 
   try {
     fn()

@@ -1,3 +1,5 @@
+'use strict'
+
 var t = require('./')
 var assert = require('assert')
 

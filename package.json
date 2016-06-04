@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "license": "MIT",
   "author": {
     "email": "0x8890@airmail.cc",
@@ -15,18 +15,13 @@
     "test": "eslint . && node test"
   },
   "devDependencies": {
-    "eslint": "^1.10.3",
-    "eslint-config-0x8890": "^1.0.1",
+    "eslint": "^2.11.1",
+    "eslint-config-boss": "^1.0.3",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.1"
+    "rimraf": "^2.5.2"
   },
   "eslintConfig": {
-    "extends": "0x8890",
-    "rules": {
-      "strict": 0,
-      "no-var": 0,
-      "func-names": 0
-    }
+    "extends": "boss/es5"
   },
   "files": [
     "index.js",
