@@ -1,6 +1,17 @@
-sudo: false
+sudo: true
 
 language: node_js
 
 node_js:
-  - "4.0"
+  - "4.6"
+
+env:
+  matrix:
+    - LISP=sbcl
+
+matrix:
+  allow_failures:
+    - env: LISP=sbcl
+
+install:
+  - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
