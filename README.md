@@ -1,8 +1,8 @@
 # Tapdance
 
-[![Build Status](https://img.shields.io/travis/0x8890/tapdance/master.svg?style=flat-square)](https://travis-ci.org/0x8890/tapdance)
+[![Build Status](https://img.shields.io/travis/sapeien/tapdance/master.svg?style=flat-square)](https://travis-ci.org/sapeien/tapdance)
 [![npm Version](https://img.shields.io/npm/v/tapdance.svg?style=flat-square)](https://www.npmjs.com/package/tapdance)
-[![License](https://img.shields.io/npm/l/tapdance.svg?style=flat-square)](https://raw.githubusercontent.com/0x8890/tapdance/master/LICENSE)
+[![License](https://img.shields.io/npm/l/tapdance.svg?style=flat-square)](https://raw.githubusercontent.com/sapeien/tapdance/master/LICENSE)
 
 Test harness that emits [TAP](https://testanything.org). It is ~150 LOC, runs in Node.js and web browsers, and is focused on simplicity of implementation.
 
@@ -73,4 +73,4 @@ The export object has a property `Promise` which may be overridden in case a cus
 
 ## License
 
-This software is licensed under the [MIT License](//github.com/0x8890/tapdance/blob/master/LICENSE).
+This software is licensed under the [MIT License](//github.com/sapeien/tapdance/blob/master/LICENSE).
