@@ -1,34 +1,17 @@
 'use strict'
 
-var t = require('./')
-var assert = require('assert')
+const runTest = require('./')
 
-t.isConcurrent = true
-
-t.run.only(function () {
-  t.comment('assert')
-  try {
-    assert(true)
-    t.pass('this works')
-  }
-  catch (error) {
-    t.fail('something went wrong')
-  }
+runTest((assert, comment) => {
+  comment('hello world')
+  assert(true, 'sync assert works')
 })
 
-t.run.only(function () {
-  t.comment('function check')
-  t.pass(function () { assert(true) }, 'works')
-  t.fail(function () { assert(false) }, 'should throw')
-})
+runTest((assert, comment) => {
+  comment('hello world, part 2')
 
-t.run.only(function () {
-  t.comment('assert helpers')
-  t.ok(true)
+  return new Promise(resolve => {
+    assert(true, 'async assert works')
+    resolve()
+  })
 })
-
-t.run.skip(function () {
-  t.fail('should have skipped')
-})
-
-t.run(function () { t.fail('run.only doesn\'t work') })

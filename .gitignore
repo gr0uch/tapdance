@@ -1,2 +1,6 @@
 node_modules/
+quicklisp/
+quicklisp.lisp
+tapdance.js
+tapdance.lisp
 *.log
