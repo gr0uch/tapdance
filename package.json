@@ -15,8 +15,10 @@
     "test": "node test",
     "prepublish": "npm run build"
   },
+  "optionalDependencies": {
+    "sigil-cli": "^1.0.6"
+  },
   "devDependencies": {
-    "sigil-cli": "^1.0.6",
     "uglifyjs": "^2.4.10"
   },
   "engines": {
