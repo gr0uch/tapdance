@@ -2,5 +2,7 @@ sudo: false
 
 language: node_js
 
+install: true
+
 node_js:
   - "4.6"
