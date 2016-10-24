@@ -1,7 +1,7 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -14,10 +14,8 @@
     "compress": "uglifyjs -cm < tapdance.js > index.js",
     "test": "node test"
   },
-  "optionalDependencies": {
-    "sigil-cli": "^1.0.6"
-  },
   "devDependencies": {
+    "sigil-cli": "^1.0.6",
     "uglifyjs": "^2.4.10"
   },
   "engines": {
