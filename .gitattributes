@@ -1,1 +1,2 @@
+*.js linguist-vendored
 *.lisp.md linguist-language=Lisp

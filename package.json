@@ -1,22 +1,22 @@
 {
   "name": "tapdance",
   "description": "Test harness that emits the Test Anything Protocol (TAP).",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/sapeien/tapdance"
   },
+  "main": "tapdance.js",
   "scripts": {
-    "build": "npm run extract && npm run compile && npm run compress",
-    "extract": "node extract < tapdance.lisp.md > tapdance.lisp",
+    "build": "npm run extract && npm run compile",
+    "extract": "lit-md < tapdance.lisp.md > tapdance.lisp",
     "compile": "./node_modules/sigil-cli/sigil tapdance.lisp > tapdance.js",
-    "compress": "uglifyjs -cm < tapdance.js > index.js",
     "test": "node test"
   },
   "devDependencies": {
-    "sigil-cli": "^1.0.6",
-    "uglifyjs": "^2.4.10"
+    "lit-md": "0.0.3",
+    "sigil-cli": "^1.0.6"
   },
   "engines": {
     "node": ">=4.6.0"
