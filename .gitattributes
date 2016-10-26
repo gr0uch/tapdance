@@ -1,2 +1,2 @@
-*.js linguist-vendored
+tapdance.js linguist-vendored
 *.lisp.md linguist-language=Lisp
