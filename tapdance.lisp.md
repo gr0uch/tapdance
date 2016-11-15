@@ -54,11 +54,10 @@ functions in order.
 Upon exiting, print the results as well as some useful information such as
 how many tests failed and how long it took.
 
-    (defun exit (code)
+    (defun exit ()
       (if *is-node*
           (setf (@ process exit-code)
-                (if code code
-                  (if (and *count* (eq *count* *passing*)) 0 1))))
+                (if (and *count* (eq *count* *passing*)) 0 1)))
       (if (not *count*) (println "not ok 1 no tests found"))
       (println (+ "1.." *count*))
       (println)

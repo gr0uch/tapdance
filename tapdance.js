@@ -70,14 +70,12 @@ function flush() {
         return showError(error);
     });
 };
-/* (DEFUN EXIT (CODE)
+/* (DEFUN EXIT ()
      (IF *IS-NODE*
          (SETF (@ PROCESS EXIT-CODE)
-                 (IF CODE
-                     CODE
-                     (IF (AND *COUNT* (EQ *COUNT* *PASSING*))
-                         0
-                         1))))
+                 (IF (AND *COUNT* (EQ *COUNT* *PASSING*))
+                     0
+                     1)))
      (IF (NOT *COUNT*)
          (PRINTLN not ok 1 no tests found))
      (PRINTLN (+ 1.. *COUNT*))
@@ -93,9 +91,9 @@ function flush() {
                 failed))))
      (PRINTLN (+ # test finished in  (- ((@ *DATE NOW)) *START-TIME*)  ms))
      (PRINTLN)) */
-function exit(code) {
+function exit() {
     if (ISNODE) {
-        process.exitCode = code ? code : (COUNT && COUNT === PASSING ? 0 : 1);
+        process.exitCode = COUNT && COUNT === PASSING ? 0 : 1;
     };
     if (!COUNT) {
         println('not ok 1 no tests found');
