@@ -46,10 +46,11 @@ functions in order.
 
     (defun flush ()
       ((@ ((@ *stack* reduce)
-       (lambda (chain fn) ((@ chain then) fn))
-       ((@ *promise resolve))) then)
-       (lambda () (if *is-node* ((@ process exit)) (exit)))
-       (lambda (error) (show-error error))))
+           (lambda (chain fn) ((@ ((@ chain then) fn) catch)
+                               (lambda (error) (progn (incf *count*)
+                                                      (show-error error)))))
+           ((@ *promise resolve))) then)
+       (lambda () (if *is-node* ((@ process exit)) (exit)))))
 
 Upon exiting, print the results as well as some useful information such as
 how many tests failed and how long it took.

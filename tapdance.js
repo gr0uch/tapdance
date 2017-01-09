@@ -53,21 +53,24 @@ function runTest(fn) {
 };
 /* (DEFUN FLUSH ()
      ((@
-       ((@ *STACK* REDUCE) (LAMBDA (CHAIN FN) ((@ CHAIN THEN) FN))
+       ((@ *STACK* REDUCE)
+        (LAMBDA (CHAIN FN)
+          ((@ ((@ CHAIN THEN) FN) CATCH)
+           (LAMBDA (ERROR) (PROGN (INCF *COUNT*) (SHOW-ERROR ERROR)))))
         ((@ *PROMISE RESOLVE)))
        THEN)
       (LAMBDA ()
         (IF *IS-NODE*
             ((@ PROCESS EXIT))
-            (EXIT)))
-      (LAMBDA (ERROR) (SHOW-ERROR ERROR)))) */
+            (EXIT))))) */
 function flush() {
     return STACK.reduce(function (chain, fn) {
-        return chain.then(fn);
+        return chain.then(fn)['catch'](function (error) {
+            ++COUNT;
+            return showError(error);
+        });
     }, Promise.resolve()).then(function () {
         return ISNODE ? process.exit() : exit();
-    }, function (error) {
-        return showError(error);
     });
 };
 /* (DEFUN EXIT ()
