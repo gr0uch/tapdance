@@ -18,7 +18,6 @@ Initialize the local state of the program which is read & written later.
     (defvar *stack* (array))
     (defvar *count* 0)
     (defvar *passing* 0)
-    (setf (@ module exports) run-test)
 
 A bit a ceremony is needed to kick off the TAP output. This kicks off the
 running of tests.
@@ -32,6 +31,7 @@ running of tests.
 Define the main public function, it accepts a test function that takes two
 arguments, `assert` and `comment`.
 
+    (setf (@ module exports) run-test)
     (defun run-test (fn)
       (defun assert (exp message)
         (incf *count*)
