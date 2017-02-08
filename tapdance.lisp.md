@@ -1,6 +1,6 @@
 # Tapdance
 
-JavaScript is insane by default, strict mode makes it less insane.
+A test harness that emits TAP, for JavaScript runtimes.
 
     "use strict"
 
@@ -12,7 +12,7 @@ Node.js specific APIs.
           (eq (typeof (@ process exit)) 'function)
           (eq (typeof (@ process next-tick)) 'function)))
 
-Set up global state.
+Initialize the local state of the program which is read & written later.
 
     (defvar *start-time* ((@ *date now)))
     (defvar *stack* (array))
@@ -20,7 +20,8 @@ Set up global state.
     (defvar *passing* 0)
     (setf (@ module exports) run-test)
 
-The test output starts here.
+A bit a ceremony is needed to kick off the TAP output. This kicks off the
+running of tests.
 
     (println "TAP version 13")
     (if *is-node*
@@ -28,7 +29,7 @@ The test output starts here.
                ((@ process next-tick) flush))
       (set-timeout flush 0))
 
-This is the main function, it accepts a test function that takes two
+Define the main public function, it accepts a test function that takes two
 arguments, `assert` and `comment`.
 
     (defun run-test (fn)
@@ -41,8 +42,8 @@ arguments, `assert` and `comment`.
       (defun comment (message) (println (+ "# " message)))
       ((@ *stack* push) (lambda () (fn assert comment))))
 
-This is run internally on the next tick, which runs all of the testing
-functions in order.
+This is an implementation detail which runs all of the testing functions in
+the order that they are declared.
 
     (defun flush ()
       ((@ ((@ *stack* reduce)
@@ -71,7 +72,7 @@ how many tests failed and how long it took.
        (+ "# test finished in " (- ((@ *date now)) *start-time*) " ms"))
       (println))
 
-Internal function to display errors that happen while running tests.
+Internal function to pretty print errors that happen while running tests.
 
     (defun show-error (error)
       (println "  ---")
