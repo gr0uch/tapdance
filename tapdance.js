@@ -13,8 +13,6 @@ var STACK = [];
 var COUNT = 0;
 /* (DEFVAR *PASSING* 0) */
 var PASSING = 0;
-/* (SETF (@ MODULE EXPORTS) RUN-TEST) */
-module.exports = runTest;
 /* (PRINTLN TAP version 13) */
 println('TAP version 13');
 /* (IF *IS-NODE*
@@ -26,6 +24,8 @@ if (ISNODE) {
 } else {
     setTimeout(flush, 0);
 };
+/* (SETF (@ MODULE EXPORTS) RUN-TEST) */
+module.exports = runTest;
 /* (DEFUN RUN-TEST (FN)
      (DEFUN ASSERT (EXP MESSAGE)
        (INCF *COUNT*)
@@ -80,7 +80,7 @@ function flush() {
                      0
                      1)))
      (IF (NOT *COUNT*)
-         (PRINTLN not ok 1 no tests found))
+         (PROGN (INCF *COUNT*) (PRINTLN not ok 1 no tests found)))
      (PRINTLN (+ 1.. *COUNT*))
      (PRINTLN)
      (IF (EQ *COUNT* *PASSING*)
@@ -99,6 +99,7 @@ function exit() {
         process.exitCode = COUNT && COUNT === PASSING ? 0 : 1;
     };
     if (!COUNT) {
+        ++COUNT;
         println('not ok 1 no tests found');
     };
     println('1..' + COUNT);

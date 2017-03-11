@@ -60,7 +60,8 @@ how many tests failed and how long it took.
       (if *is-node*
           (setf (@ process exit-code)
                 (if (and *count* (eq *count* *passing*)) 0 1)))
-      (if (not *count*) (println "not ok 1 no tests found"))
+      (if (not *count*)
+          (progn (incf *count*) (println "not ok 1 no tests found")))
       (println (+ "1.." *count*))
       (println)
       (if (eq *count* *passing*)
