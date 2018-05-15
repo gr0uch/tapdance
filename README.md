@@ -49,6 +49,11 @@ Check if a value is truthy or not.
 Output a comment line.
 
 
+### runTest.assert
+
+This can be overridden to use a different assert function.
+
+
 ## Building
 
 You will need a Common Lisp implementation like [SBCL](http://www.sbcl.org), and `wget`. If installing the developer dependencies didn't work the first time, you may need to `cd node_modules/sigil-cli && make`.

@@ -1,5 +1,7 @@
 /* use strict */
 'use strict';
+/* (DEFVAR *ASSERT* (REQUIRE assert)) */
+var ASSERT = require('assert');
 /* (DEFVAR *IS-NODE*
      (AND (NOT (EQ (TYPEOF PROCESS) 'UNDEFINED))
           (EQ (TYPEOF (@ PROCESS EXIT)) 'FUNCTION)
@@ -26,22 +28,30 @@ if (ISNODE) {
 };
 /* (SETF (@ MODULE EXPORTS) RUN-TEST) */
 module.exports = runTest;
+/* (SETF (@ RUN-TEST ASSERT) *ASSERT*) */
+runTest.assert = ASSERT;
 /* (DEFUN RUN-TEST (FN)
      (DEFUN ASSERT (EXP MESSAGE)
        (INCF *COUNT*)
-       (IF EXP
-           (PROGN (INCF *PASSING*) (PRINTLN (+ ok  *COUNT*   MESSAGE)))
-           (PRINTLN (+ not ok  *COUNT*   MESSAGE))))
+       (TRY
+        (PROGN
+         ((@ RUN-TEST ASSERT) EXP)
+         (INCF *PASSING*)
+         (PRINTLN (+ ok  *COUNT*   MESSAGE)))
+        (CATCH (ERROR) (PRINTLN (+ not ok  *COUNT*   MESSAGE))
+         (SHOW-ERROR ERROR))))
      (DEFUN COMMENT (MESSAGE) (PRINTLN (+ #  MESSAGE)))
      ((@ *STACK* PUSH) (LAMBDA () (FN ASSERT COMMENT)))) */
 function runTest(fn) {
     function assert(exp, message) {
         ++COUNT;
-        if (exp) {
+        try {
+            runTest.assert(exp);
             ++PASSING;
             return println('ok ' + COUNT + ' ' + message);
-        } else {
-            return println('not ok ' + COUNT + ' ' + message);
+        } catch (error) {
+            println('not ok ' + COUNT + ' ' + message);
+            return showError(error);
         };
     };
     function comment(message) {
@@ -116,29 +126,45 @@ function exit() {
 /* (DEFUN SHOW-ERROR (ERROR)
      (PRINTLN   ---)
      (PRINTLN (+   name:  (@ ERROR NAME)))
-     (PRINTLN (+   message:  (@ ERROR MESSAGE)))
-     (IF (@ ERROR STACK)
+     (IF ((@ (REGEX \n) TEST) (@ ERROR MESSAGE))
          (PROGN
-          (PRINTLN   stack:)
+          (PRINTLN   message:)
           ((@
-            ((@ ERROR STACK SPLIT) 
+            ((@ ERROR MESSAGE SPLIT) 
 )
-            FOR-EACH)
-           (LAMBDA (LINE)
-             (SETF LINE ((@ LINE TRIM)))
-             (IF (NOT (EQ ((@ LINE INDEX-OF) (@ ERROR NAME)) 0))
-                 (PRINTLN (+     -  LINE)))))))
+            MAP)
+           (LAMBDA (LINE) (PRINTLN (+     -  LINE)))))
+         (PROGN
+          (PRINTLN (+   message:  (@ ERROR MESSAGE)))
+          (IF (@ ERROR STACK)
+              (PROGN
+               (PRINTLN   stack:)
+               ((@
+                 ((@ ERROR STACK SPLIT) 
+)
+                 FOR-EACH)
+                (LAMBDA (LINE)
+                  (SETF LINE ((@ LINE TRIM)))
+                  (IF (NOT (EQ ((@ LINE INDEX-OF) (@ ERROR NAME)) 0))
+                      (PRINTLN (+     -  LINE)))))))))
      (PRINTLN   ...)) */
 function showError(error) {
     println('  ---');
     println('  name: ' + error.name);
-    println('  message: ' + error.message);
-    if (error.stack) {
-        println('  stack:');
-        error.stack.split('\n').forEach(function (line) {
-            line = line.trim();
-            return line.indexOf(error.name) !== 0 ? println('    - ' + line) : null;
+    if (/\n/.test(error.message)) {
+        println('  message:');
+        error.message.split('\n').map(function (line) {
+            return println('    - ' + line);
         });
+    } else {
+        println('  message: ' + error.message);
+        if (error.stack) {
+            println('  stack:');
+            error.stack.split('\n').forEach(function (line) {
+                line = line.trim();
+                return line.indexOf(error.name) !== 0 ? println('    - ' + line) : null;
+            });
+        };
     };
     return println('  ...');
 };

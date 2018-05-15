@@ -3,6 +3,7 @@
 A test harness that emits TAP, for JavaScript runtimes.
 
     "use strict"
+    (defvar *assert* (require "assert"))
 
 Check if it's running in Node.js, this determines whether or not to call
 Node.js specific APIs.
@@ -32,13 +33,17 @@ Define the main public function, it accepts a test function that takes two
 arguments, `assert` and `comment`.
 
     (setf (@ module exports) run-test)
+    (setf (@ run-test assert) *assert*)
     (defun run-test (fn)
       (defun assert (exp message)
         (incf *count*)
-        (if exp
-            (progn (incf *passing*)
-                   (println (+ "ok " *count* " " message)))
-          (println (+ "not ok " *count* " " message))))
+        (try
+          (progn ((@ run-test assert) exp)
+                 (incf *passing*)
+                 (println (+ "ok " *count* " " message)))
+          (:catch (error)
+            (println (+ "not ok " *count* " " message))
+            (show-error error))))
       (defun comment (message) (println (+ "# " message)))
       ((@ *stack* push) (lambda () (fn assert comment))))
 
@@ -78,15 +83,22 @@ Internal function to pretty print errors that happen while running tests.
     (defun show-error (error)
       (println "  ---")
       (println (+ "  name: " (@ error name)))
-      (println (+ "  message: " (@ error message)))
-      (if (@ error stack)
+      (if ((@ (regex "\\n") test) (@ error message))
           (progn
-            (println "  stack:")
-            ((@ ((@ error stack split) #\linefeed) for-each)
+            (println "  message:")
+            ((@ ((@ error message split) #\linefeed) map)
              (lambda (line)
-               (setf line ((@ line trim)))
-               (if (not (eq ((@ line index-of) (@ error name)) 0))
-                   (println (+ "    - " line)))))))
+               (println (+ "    - " line)))))
+        (progn
+          (println (+ "  message: " (@ error message)))
+          (if (@ error stack)
+              (progn
+                (println "  stack:")
+                ((@ ((@ error stack split) #\linefeed) for-each)
+                 (lambda (line)
+                   (setf line ((@ line trim)))
+                   (if (not (eq ((@ line index-of) (@ error name)) 0))
+                       (println (+ "    - " line)))))))))
       (println "  ..."))
 
 Internal function to print lines while escaping new lines in the input.
