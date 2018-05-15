@@ -1,5 +1,7 @@
 'use strict'
 
+// Use `node -r ./power-assert test` to use power-assert.
+
 const runTest = require('./')
 
 runTest((assert, comment) => {

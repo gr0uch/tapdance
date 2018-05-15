@@ -3,5 +3,3 @@ require('espower-loader')({
 })
 
 require('./').assert = require('power-assert')
-
-require('./test')
