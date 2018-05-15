@@ -1,7 +1,6 @@
 'use strict'
 
 const runTest = require('./')
-runTest.assert = require('power-assert')
 
 runTest((assert, comment) => {
   comment('hello world')

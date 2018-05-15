@@ -13,7 +13,7 @@
     "extract": "lit-md < tapdance.lisp.md > tapdance.lisp",
     "compile": "./node_modules/sigil-cli/sigil tapdance.lisp > tapdance.js",
     "prepare": "npm run build && npm test",
-    "test": "node load-test"
+    "test": "node test"
   },
   "devDependencies": {
     "espower-loader": "^1.2.2",
