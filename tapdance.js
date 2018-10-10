@@ -66,7 +66,11 @@ function runTest(fn) {
        ((@ *STACK* REDUCE)
         (LAMBDA (CHAIN FN)
           ((@ ((@ CHAIN THEN) FN) CATCH)
-           (LAMBDA (ERROR) (PROGN (INCF *COUNT*) (SHOW-ERROR ERROR)))))
+           (LAMBDA (ERROR)
+             (PROGN
+              (INCF *COUNT*)
+              (PRINTLN (+ not ok  *COUNT*   (@ ERROR MESSAGE)))
+              (SHOW-ERROR ERROR)))))
         ((@ *PROMISE RESOLVE)))
        THEN)
       (LAMBDA ()
@@ -77,6 +81,7 @@ function flush() {
     return STACK.reduce(function (chain, fn) {
         return chain.then(fn)['catch'](function (error) {
             ++COUNT;
+            println('not ok ' + COUNT + ' ' + error.message);
             return showError(error);
         });
     }, Promise.resolve()).then(function () {
