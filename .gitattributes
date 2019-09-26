@@ -1,2 +1,2 @@
 tapdance.js linguist-vendored
-README.md linguist-language=Lisp
+*.md linguist-language=lisp
